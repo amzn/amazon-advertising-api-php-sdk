@@ -1,0 +1,36 @@
+{
+    "name": "amzn/amazon-advertising-api-php-sdk",
+    "type": "library",
+    "description": "Amazon Advertising API Client Library",
+    "keywords": [
+        "amazon",
+        "advertising",
+        "client",
+        "library",
+        "php",
+        "sdk"
+    ],
+    "homepage": "https://advertising.amazon.com/",
+    "license": "Apache OSL-2",
+    "authors": [
+        {
+            "name": "SSPA AIR Dev",
+            "email": "nobody@amazon.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "AmazonAdvertisingApi\\": "AmazonAdvertisingApi/"
+        }
+    },
+    "require": {
+        "ext-curl": "*",
+        "php": ">=5.3.0"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/amzn/amazon-advertising-api-php-sdk"
+        }
+    ]
+}
