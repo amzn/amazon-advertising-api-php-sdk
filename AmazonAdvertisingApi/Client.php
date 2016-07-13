@@ -55,10 +55,6 @@ class Client
             "User-Agent: {$this->userAgent}"
         );
 
-        if (!is_null($this->profileId)) {
-            array_push($headers, "Amazon-Advertising-API-Scope: {$this->profileId}");
-        }
-
         $refresh_token = rawurldecode($this->config["refreshToken"]);
 
         $params = array(
