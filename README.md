@@ -972,7 +972,7 @@ $client->requestReport(
     "campaigns",
     array("reportDate" => "20160515",
           "campaignType" => "sponsoredProducts",
-          "metrics" => "impressions,clicks,cost,avgImpressionPosition"));
+          "metrics" => "impressions,clicks,cost"));
 ```
 >
 ```
@@ -997,28 +997,24 @@ $client->getReport("amzn1.clicksAPI.v1.m1.573A0808.32908def-66a1-4ce2-8f12-780dc
   {
     "cost": 647.75,
     "campaignId": 230751293360275,
-    "avgImpressionPosition": 18,
     "clicks": 2591,
     "impressions": 58288
   },
   {
     "cost": 619.5,
     "campaignId": 52110033002744,
-    "avgImpressionPosition": 9,
     "clicks": 2478,
     "impressions": 68408
   },
   {
     "cost": 151.91,
     "campaignId": 140739567440917,
-    "avgImpressionPosition": 19,
     "clicks": 633,
     "impressions": 17343
   },
   {
     "cost": 143.46,
     "campaignId": 79132327246328,
-    "avgImpressionPosition": 2,
     "clicks": 797,
     "impressions": 48903
   }
