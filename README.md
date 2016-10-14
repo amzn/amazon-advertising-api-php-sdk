@@ -13,6 +13,9 @@ cURL >= 7.18
 [Access Request](https://advertising.amazon.com/API)<br/>
 [Getting Started](https://images-na.ssl-images-amazon.com/images/G/01/AdProductsWebsite/downloads/Amazon_Advertising_API_Getting_Started_Guide.pdf)
 
+## Tutorial
+[Generate and download a report using CURL](https://git.io/vPKPW) - You will need to complete registering a profile in sandbox prior to doing this tutorial.
+
 ## Sandbox self-service
 If you would like to test the API in sandbox you will need to register a profile for the region in which you would like to test. The `registerProfile` API call can be made to do this. Make sure you instantiate the client in `sandbox` mode before making this call or it will fail.
 <br/><br/>
