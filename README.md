@@ -248,13 +248,13 @@ $client->createCampaigns(
     array(
         array("name" => "My Campaign One",
               "campaignType" => "sponsoredProducts",
-              "targetingType" => "manaul",
+              "targetingType" => "manual",
               "state" => "enabled",
               "dailyBudget" => 5.00,
               "startDate" => date("Ymd")),
         array("name" => "My Campaign Two",
               "campaignType" => "sponsoredProducts",
-              "targetingType" => "manaul",
+              "targetingType" => "manual",
               "state" => "enabled",
               "dailyBudget" => 15.00,
               "startDate" => date("Ymd"))));
