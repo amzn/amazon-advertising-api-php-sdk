@@ -137,9 +137,9 @@ $client->profileId = "1234567890";
     * [requestReport](#requestreport)
     * [getReport](#getreport)
 * Bid Recommendations
-    * [getAdGroupBidRecommendations](#getAdGroupBidRecommendations)
-    * [getKeywordBidRecommendations](#getKeywordBidRecommendations)
-    * [bulkGetKeywordBidRecommendations](#bulkGetKeywordBidRecommendations)
+    * [getAdGroupBidRecommendations](#getadgroupbidrecommendations)
+    * [getKeywordBidRecommendations](#getkeywordbidrecommendations)
+    * [bulkGetKeywordBidRecommendations](#bulkgetkeywordbidrecommendations)
 
 #### getProfile
 > Retrieves a single profile by Id.
