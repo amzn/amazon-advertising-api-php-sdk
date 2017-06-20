@@ -136,6 +136,10 @@ $client->profileId = "1234567890";
 * Reports
     * [requestReport](#requestreport)
     * [getReport](#getreport)
+* Bid Recommendations
+    * [getAdGroupBidRecommendations](#getAdGroupBidRecommendations)
+    * [getKeywordBidRecommendations](#getKeywordBidRecommendations)
+    * [bulkGetKeywordBidRecommendations](#bulkGetKeywordBidRecommendations)
 
 #### getProfile
 > Retrieves a single profile by Id.
@@ -1023,4 +1027,86 @@ $client->getReport("amzn1.clicksAPI.v1.m1.573A0808.32908def-66a1-4ce2-8f12-780dc
     "impressions": 48903
   }
 ]
+```
+
+---
+#### getAdGroupBidRecommendations
+> Request bid recommendations for specified ad group.
+
+```PHP
+$client->getAdGroupBidRecommendations(1234509876);
+```
+>
+```
+{
+  "adGroupId": 1234509876,
+  "suggestedBid": {
+    "rangeEnd": 2.16,
+    "rangeStart": 0.67,
+    "suggested": 1.67
+  }
+}
+```
+
+---
+#### getKeywordBidRecommendations
+> Request bid recommendations for specified keyword.
+
+```PHP
+$client->getKeywordBidRecommendations(85243141758914);
+```
+>
+```
+{
+  "keywordId": 85243141758914,
+  "adGroupId": 252673310548066,
+  "suggestedBid": {
+    "rangeEnd": 3.18,
+    "rangeStart": 0.35,
+    "suggested": 2.97
+  }
+}
+```
+
+---
+#### bulkGetKeywordBidRecommendations
+> Request bid recommendations for a list of up to 100 keywords.
+
+```PHP
+$client->bulkGetKeywordBidRecommendations(
+    242783265349805,
+    array(
+        array("keyword" => "testKeywordOne",
+              "matchType" => "exact"),
+        array("keyword" => "testKeywordTwo",
+              "matchType" => "exact")
+    ));
+```
+>
+```
+{
+  "adGroupId": 242783265349805,
+  "recommendations": [
+    {
+      "code": "SUCCESS",
+      "keyword": "testKeywordOne",
+      "matchType": "exact",
+      "suggestedBid": {
+        "rangeEnd": 2.67,
+        "rangeStart": 0.38,
+        "suggested": 2.07
+      }
+    },
+    {
+      "code": "SUCCESS",
+      "keyword": "testKeywordTwo",
+      "matchType": "exact",
+      "suggestedBid": {
+        "rangeEnd": 3.19,
+        "rangeStart": 0.79,
+        "suggested": 3.03
+      }
+    }
+  ]
+}
 ```

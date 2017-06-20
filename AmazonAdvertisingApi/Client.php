@@ -358,6 +358,24 @@ class Client
         return $req;
     }
 
+    public function getAdGroupBidRecommendations($adGroupId)
+    {
+        return $this->_operation("adGroups/{$adGroupId}/bidRecommendations");
+    }
+
+    public function getKeywordBidRecommendations($keywordId)
+    {
+        return $this->_operation("keywords/{$keywordId}/bidRecommendations");
+    }
+
+    public function bulkGetKeywordBidRecommendations($adGroupId, $data)
+    {
+        $data = array(
+            "adGroupId" => $adGroupId,
+            "keywords" => $data);
+        return $this->_operation("keywords/bidRecommendations", $data, "POST");
+    }
+
     private function _download($location, $gunzip = false)
     {
         $headers = array();
@@ -416,6 +434,7 @@ class Client
             case "post":
             case "delete":
                 if (!empty($params)) {
+                    print_r($params);
                     $data = json_encode($params);
                     $request->setOption(CURLOPT_POST, true);
                     $request->setOption(CURLOPT_POSTFIELDS, $data);
