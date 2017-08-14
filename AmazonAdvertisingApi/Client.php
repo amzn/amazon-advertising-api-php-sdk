@@ -89,7 +89,7 @@ class Client
         return $response;
     }
 
-    public function getProfiles()
+    public function listProfiles()
     {
         return $this->_operation("profiles");
     }
