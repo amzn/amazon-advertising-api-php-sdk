@@ -101,9 +101,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetProfiles()
+    public function testListProfiles()
     {
-        $request = $this->client->getProfiles();
+        $request = $this->client->listProfiles();
         $this->assertEquals($this->return_value, $request);
     }
 
