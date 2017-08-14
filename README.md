@@ -63,9 +63,9 @@ $client = new Client($config);
 $request = $client->doRefreshToken();
 ```
 
-#### Get profile list
+#### Get a list of profiles
 ```PHP
-$request = $client->getProfiles();
+$request = $client->listProfiles();
 ```
 >
 ```
@@ -91,7 +91,7 @@ $client->profileId = "1234567890";
 ## Example API Calls
 
 * Profiles
-    * [getProfiles](#get-profile-list)
+    * [listProfiles](#get-a-list-of-profiles)
     * [getProfile](#getprofile)
     * [updateProfiles](#updateprofiles)
 * Campaigns
