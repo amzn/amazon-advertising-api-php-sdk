@@ -383,30 +383,30 @@ class ClientTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->return_value, $request);
     }
 
-    public function testGetAdGroupKeywordRecommendations()
+    public function testGetAdGroupKeywordSuggestions()
     {
-        $request = $this->client->getAdGroupKeywordRecommendations(
+        $request = $this->client->getAdGroupKeywordSuggestions(
             array("adGroupId" => 12345));
         $this->assertEquals($this->return_value, $request);
     }
 
-    public function testGetAdGroupKeywordRecommendationsEx()
+    public function testGetAdGroupKeywordSuggestionsEx()
     {
-        $request = $this->client->getAdGroupKeywordRecommendationsEx(
+        $request = $this->client->getAdGroupKeywordSuggestionsEx(
             array("adGroupId" => 12345));
         $this->assertEquals($this->return_value, $request);
     }
 
-    public function testGetAsinKeywordRecommendations()
+    public function testGetAsinKeywordSuggestions()
     {
-        $request = $this->client->getAsinKeywordRecommendations(
+        $request = $this->client->getAsinKeywordSuggestions(
             array("asin" => 12345));
         $this->assertEquals($this->return_value, $request);
     }
 
-    public function testBulkGetAsinKeywordRecommendations()
+    public function testBulkGetAsinKeywordSuggestions()
     {
-        $request = $this->client->bulkGetAsinKeywordRecommendations(
+        $request = $this->client->bulkGetAsinKeywordSuggestions(
             array("asins" => array("ASIN1", "ASIN2")));
         $this->assertEquals($this->return_value, $request);
     }
