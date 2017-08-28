@@ -3,7 +3,7 @@ namespace AmazonAdvertisingApi;
 
 require_once "../AmazonAdvertisingApi/Client.php";
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends \PHPUnit\Framework\TestCase
 {
     private $client = null;
     private $return_value = null;
@@ -16,7 +16,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         "sandbox" => true);
 
 
-    public function __construct()
+    public function setUp()
     {
         $this->return_value = array(
             "code" => "200",
@@ -362,6 +362,52 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testListProductAdsEx()
     {
         $request = $this->client->listProductAdsEx();
+        $this->assertEquals($this->return_value, $request);
+    }
+
+    public function testGetAdGroupBidRecommendations()
+    {
+        $request = $this->client->getAdGroupBidRecommendations("test");
+        $this->assertEquals($this->return_value, $request);
+    }
+
+    public function testGetKeywordBidRecommendations()
+    {
+        $request = $this->client->getKeywordBidRecommendations("test");
+        $this->assertEquals($this->return_value, $request);
+    }
+
+    public function testBulkGetKeywordBidRecommendations()
+    {
+        $request = $this->client->getKeywordBidRecommendations("test");
+        $this->assertEquals($this->return_value, $request);
+    }
+
+    public function testGetAdGroupKeywordRecommendations()
+    {
+        $request = $this->client->getAdGroupKeywordRecommendations(
+            array("adGroupId" => 12345));
+        $this->assertEquals($this->return_value, $request);
+    }
+
+    public function testGetAdGroupKeywordRecommendationsEx()
+    {
+        $request = $this->client->getAdGroupKeywordRecommendationsEx(
+            array("adGroupId" => 12345));
+        $this->assertEquals($this->return_value, $request);
+    }
+
+    public function testGetAsinKeywordRecommendations()
+    {
+        $request = $this->client->getAsinKeywordRecommendations(
+            array("asin" => 12345));
+        $this->assertEquals($this->return_value, $request);
+    }
+
+    public function testBulkGetAsinKeywordRecommendations()
+    {
+        $request = $this->client->bulkGetAsinKeywordRecommendations(
+            array("asins" => array("ASIN1", "ASIN2")));
         $this->assertEquals($this->return_value, $request);
     }
 

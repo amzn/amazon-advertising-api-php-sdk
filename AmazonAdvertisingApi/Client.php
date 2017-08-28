@@ -324,6 +324,50 @@ class Client
         return $this->_operation("productAds/extended", $data);
     }
 
+    public function getAdGroupBidRecommendations($adGroupId)
+    {
+        return $this->_operation("adGroups/{$adGroupId}/bidRecommendations");
+    }
+
+    public function getKeywordBidRecommendations($keywordId)
+    {
+        return $this->_operation("keywords/{$keywordId}/bidRecommendations");
+    }
+
+    public function bulkGetKeywordBidRecommendations($adGroupId, $data)
+    {
+        $data = array(
+            "adGroupId" => $adGroupId,
+            "keywords" => $data);
+        return $this->_operation("keywords/bidRecommendations", $data, "POST");
+    }
+
+    public function getAdGroupKeywordSuggestions($data)
+    {
+        $adGroupId = $data["adGroupId"];
+        unset($data["adGroupId"]);
+        return $this->_operation("adGroups/{$adGroupId}/suggested/keywords", $data);
+    }
+
+    public function getAdGroupKeywordSuggestionsEx($data)
+    {
+        $adGroupId = $data["adGroupId"];
+        unset($data["adGroupId"]);
+        return $this->_operation("adGroups/{$adGroupId}/suggested/keywords/extended", $data);
+    }
+
+    public function getAsinKeywordSuggestions($data)
+    {
+        $asin = $data["asin"];
+        unset($data["asin"]);
+        return $this->_operation("asins/{$asin}/suggested/keywords", $data);
+    }
+
+    public function bulkGetAsinKeywordSuggestions($data)
+    {
+        return $this->_operation("asins/suggested/keywords", $data, "POST");
+    }
+
     public function requestSnapshot($recordType, $data = null)
     {
         return $this->_operation("{$recordType}/snapshot", $data, "POST");
@@ -356,24 +400,6 @@ class Client
             }
         }
         return $req;
-    }
-
-    public function getAdGroupBidRecommendations($adGroupId)
-    {
-        return $this->_operation("adGroups/{$adGroupId}/bidRecommendations");
-    }
-
-    public function getKeywordBidRecommendations($keywordId)
-    {
-        return $this->_operation("keywords/{$keywordId}/bidRecommendations");
-    }
-
-    public function bulkGetKeywordBidRecommendations($adGroupId, $data)
-    {
-        $data = array(
-            "adGroupId" => $adGroupId,
-            "keywords" => $data);
-        return $this->_operation("keywords/bidRecommendations", $data, "POST");
     }
 
     private function _download($location, $gunzip = false)
@@ -442,11 +468,11 @@ class Client
             default:
                 $this->_logAndThrow("Unknown verb {$method}.");
         }
+
         $request->setOption(CURLOPT_URL, $url);
         $request->setOption(CURLOPT_HTTPHEADER, $headers);
         $request->setOption(CURLOPT_USERAGENT, $this->userAgent);
         $request->setOption(CURLOPT_CUSTOMREQUEST, strtoupper($method));
-
         return $this->_executeRequest($request);
     }
 
