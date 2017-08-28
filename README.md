@@ -140,6 +140,11 @@ $client->profileId = "1234567890";
     * [getAdGroupBidRecommendations](#getadgroupbidrecommendations)
     * [getKeywordBidRecommendations](#getkeywordbidrecommendations)
     * [bulkGetKeywordBidRecommendations](#bulkgetkeywordbidrecommendations)
+* Keyword Suggestions
+  * [getAdGroupKeywordSuggestions](#getadgroupkeywordsuggestions)
+  * [getAdGroupKeywordSuggestionsEx](#getadgroupkeywordsuggestionsex)
+  * [getAsinKeywordSuggestions](#getasinkeywordsuggestions)
+  * [bulkGetAsinKeywordSuggestions](#bulkgetasinkeywordsuggestions)
 
 #### getProfile
 > Retrieves a single profile by Id.
@@ -1109,4 +1114,112 @@ $client->bulkGetKeywordBidRecommendations(
     }
   ]
 }
+```
+
+---
+#### getAdGroupKeywordSuggestions
+> Request keyword suggestions for specified ad group.
+
+```PHP
+$client->getAdGroupKeywordSuggestions(
+    array("adGroupId" => 1234567890,
+          "maxNumSuggestions" => 2,
+          "adStateFilter" => "enabled"));
+```
+>
+```
+{
+  "adGroupId": 1234567890,
+  "suggestedKeywords": [
+    {
+      "keywordText": "keyword PRODUCT_AD_A 1",
+      "matchType": "broad"
+    },
+    {
+      "keywordText": "keyword PRODUCT_AD_B 1",
+      "matchType": "broad"
+    }
+  ]
+}
+```
+
+---
+#### getAdGroupKeywordSuggestionsEx
+> Request keyword suggestions for specified ad group, extended version. Adds the ability to return bid recommendation for returned keywords.
+
+```PHP
+$client->getAdGroupKeywordSuggestionsEx(
+    array("adGroupId" => 1234567890,
+          "maxNumSuggestions" => 2,
+          "suggestBids" => "yes",
+          "adStateFilter" => "enabled"));
+```
+>
+```
+[
+  {
+    "adGroupId": 1234567890,
+    "campaignId": 0987654321,
+    "keywordText": "keyword TESTASINXX 1",
+    "matchType": "broad",
+    "state": "enabled",
+    "bid": 1.84
+  },
+  {
+    "adGroupId": 1234567890,
+    "campaignId": 0987654321,
+    "keywordText": "keyword TESTASINXX 2",
+    "matchType": "broad",
+    "state": "enabled",
+    "bid": 1.07
+  }
+]
+```
+
+---
+#### getAsinKeywordSuggestions
+> Request keyword suggestions for specified asin.
+
+```PHP
+$client->getAsinKeywordSuggestions(
+    array("asin" => "B00IJSNPM0",
+          "maxNumSuggestions" => 2));
+```
+>
+```
+[
+  {
+    "keywordText": "keyword B00IJSNPM0 1",
+    "matchType": "broad"
+  },
+  {
+    "keywordText": "keyword B00IJSNPM0 2",
+    "matchType": "broad"
+  }
+]
+```
+
+---
+#### bulkGetAsinKeywordSuggestions
+> Request keyword suggestions for a list of asin.
+
+```PHP
+$client->bulkGetAsinKeywordSuggestions(
+    array("asins" => array(
+              "B00IJSNPM0",
+              "B00IJSO1NM"),
+          "maxNumSuggestions" => 2));
+```
+>
+```
+[
+  {
+    "keywordText": "keyword B00IJSNPM0 1",
+    "matchType": "broad"
+  },
+  {
+    "keywordText": "keyword B00IJSO1NM 1",
+    "matchType": "broad"
+  }
+]
 ```
