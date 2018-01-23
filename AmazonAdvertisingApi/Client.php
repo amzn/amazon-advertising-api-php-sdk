@@ -83,7 +83,7 @@ class Client
         if (array_key_exists("access_token", $response_array)) {
             $this->config["accessToken"] = $response_array["access_token"];
         } else {
-            $this->_logAndThrow("Unable to refresh token. 'access_token' not found in response. ". print_r($response));
+            $this->_logAndThrow("Unable to refresh token. 'access_token' not found in response. ". print_r($response, true));
         }
 
         return $response;
