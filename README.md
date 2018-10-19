@@ -9,9 +9,9 @@ cURL >= 7.18
 
 ## Documentation
 
-[API Reference](https://images-na.ssl-images-amazon.com/images/G/01/AdProductsWebsite/downloads/Amazon_Advertising_API_Reference.pdf)<br/>
+[API Reference](https://advertising.amazon.com/API/docs)<br/>
 [Access Request](https://advertising.amazon.com/API)<br/>
-[Getting Started](https://images-na.ssl-images-amazon.com/images/G/01/AdProductsWebsite/downloads/Amazon_Advertising_API_Getting_Started_Guide.pdf)
+[Getting Started](https://advertising.amazon.com/API/docs/v2/guides/get_started)
 
 ## Tutorials
 [Register Sandbox Profile](https://git.io/vPKMl) - This tutorial will show you how to register a profile in sandbox using CURL.<br/>
