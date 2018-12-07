@@ -100,6 +100,11 @@ $client->profileId = "1234567890";
     * [createCampaigns](#createcampaigns)
     * [updateCampaigns](#updatecampaigns)
     * [archiveCampaign](#archivecampaign)
+    * [listCampaigns Sponsored Brands](#listcampaignsBrand)
+    * [getCampaign Sponsored Brands](#getcampaignBrand)
+    * [updateCampaigns Sponsored Brands](#updatecampaignsBrand)
+    * [archiveCampaign Sponsored Brands](#archivecampaignBrand)
+
 * Ad Groups
     * [listAdGroups](#listadgroups)
     * [getAdGroup](#getadgroup)
@@ -112,6 +117,10 @@ $client->profileId = "1234567890";
     * [createBiddableKeywords](#createbiddablekeywords)
     * [updateBiddableKeywords](#updatebiddablekeywords)
     * [archiveBiddableKeyword](#archivebiddablekeyword)
+    * [getBiddableKeyword Sponsored Brands](#getbiddablekeywordBrand)
+    * [createBiddableKeywords Sponsored Brands](#createbiddablekeywordsBrand)
+    * [updateBiddableKeywords Sponsored Brands](#updatebiddablekeywordsBrand)
+    * [archiveBiddableKeyword Sponsored Brands](#archivebiddablekeywordBrand)
 * Negative Keywords
     * [listNegativeKeywords](#listnegativekeywords)
     * [getNegativeKeyword](#getnegativekeyword)
@@ -133,9 +142,11 @@ $client->profileId = "1234567890";
 * Snapshots
     * [requestSnapshot](#requestsnapshot)
     * [getSnapshot](#getsnapshot)
+    * [requestSnapshot Sponsored Brands](#requestsnapshotBrand)
 * Reports
     * [requestReport](#requestreport)
     * [getReport](#getreport)
+    * [requestReport Sponsored Brands](#requestreportBrand)
 * Bid Recommendations
     * [getAdGroupBidRecommendations](#getadgroupbidrecommendations)
     * [getKeywordBidRecommendations](#getkeywordbidrecommendations)
@@ -318,6 +329,103 @@ $client->updateCampaigns(
 
 ```PHP
 $client->archiveCampaign(1234567890);
+```
+>
+```
+{
+  "code": "SUCCESS",
+  "campaignId": 1234567890
+}
+```
+
+
+---
+#### listCampaignsBrand
+> Retrieves a list of campaigns satisfying optional criteria. Used for Sponsored Brands.
+
+```PHP
+$client->listCampaignsBrand(array("stateFilter" => "enabled"));
+```
+>
+```
+[
+  {
+    "campaignId": 59836775211065,
+    "name": "CampaignOne",
+    "campaignType": "sponsoredProducts",
+    "targetingType": "manual",
+    "dailyBudget": 15.0,
+    "startDate": "20160330",
+    "state": "enabled"
+  },
+  {
+    "campaignId": 254238342004647,
+    "name": "CampaignTwo",
+    "campaignType": "sponsoredProducts",
+    "targetingType": "manual",
+    "dailyBudget": 5.0,
+    "startDate": "20160510",
+    "state": "enabled"
+  }
+]
+```
+
+---
+#### getCampaignBrand
+> Retrieves a campaign by Id. Used for Sponsored Brands.
+
+```PHP
+$client->getCampaignBrand(1234567890);
+```
+>
+```
+{
+  "campaignId": 1234567890,
+  "name": "CampaignOne",
+  "campaignType": "sponsoredProducts",
+  "targetingType": "manual",
+  "dailyBudget": 15.0,
+  "startDate": "20160330",
+  "state": "enabled"
+}
+```
+
+---
+#### updateCampaignsBrand
+> Updates one or more campaigns. Campaigns are identified using their `campaignId`s.  Used for Sponsored Brands.
+
+```PHP
+$client->updateCampaignsBrand(
+    array(
+        array("campaignId" => 173284463890123,
+              "name" => "Update Campaign One",
+              "state" => "enabled",
+              "dailyBudget" => 10.99),
+        array("campaignId" => 27074907785456,
+              "name" => "Update Campaign Two",
+              "state" => "enabled",
+              "dailyBudget" => 99.99)));
+```
+>
+```
+[
+  {
+    "code": "SUCCESS",
+    "campaignId": 173284463890123
+  },
+  {
+    "code": "SUCCESS",
+    "campaignId": 27074907785456
+  }
+]
+```
+
+---
+#### archiveCampaignBrand
+> Sets the campaign status to archived. This same operation can be performed via an update, but is included for completeness.  Used for Sponsored Brands.
+
+```PHP
+$client->archiveCampaignBrand(1234567890);
 ```
 >
 ```
@@ -575,6 +683,105 @@ $client->archiveBiddableKeyword(112210768353976);
   "requestId": "0TR95PJD6Z16FFCZDXD0"
 }
 ```
+
+---
+#### getBiddableKeywordBrand
+> Retrieves a keyword by Id. Note that this call returns the minimal set of keyword fields, but is more efficient than  getBiddableKeywordEx.  Used for Sponsored Brands.
+
+```PHP
+$client->getBiddableKeywordBrand(174140697976855);
+```
+>
+```
+{
+  "keywordId": 174140697976855,
+  "adGroupId": 52169162825843,
+  "campaignId": 250040549047739,
+  "keywordText": "KeywordOne",
+  "matchType": "exact",
+  "state": "enabled"
+}
+```
+
+---
+#### createBiddableKeywordsBrand
+> Creates one or more keywords. Successfully created keywords will be assigned unique `keywordId`s.  Used for Sponsored Brands.
+
+```PHP
+$client->createBiddableKeywordsBrand(
+    array(
+        array(
+            "campaignId" => 250040549047739,
+            "adGroupId" => 52169162825843,
+            "keywordText" => "AnotherKeyword",
+            "matchType" => "exact",
+            "state" => "enabled"),
+        array(
+            "campaignId" => 250040549047739,
+            "adGroupId" => 52169162825843,
+            "keywordText" => "YetAnotherKeyword",
+            "matchType" => "exact",
+            "state" => "enabled")));
+```
+>
+```
+[
+  {
+    "code": "SUCCESS",
+    "keywordId": 112210768353976
+  },
+  {
+    "code": "SUCCESS",
+    "keywordId": 249490346605943
+  }
+]
+```
+
+---
+#### updateBiddableKeywordsBrand
+> Updates one or more keywords. Keywords are identified using their `keywordId`s.  Used for Sponsored Brands.
+
+```PHP
+$client->updateBiddableKeywordsBrand(
+       array(
+           array(
+               "keywordId" => 112210768353976,
+               "bid" => 100.0,
+               "state" => "archived"),
+           array(
+               "keywordId" => 249490346605943,
+               "bid" => 50.0,
+               "state" => "archived")));
+```
+>
+```
+[
+  {
+    "code": "SUCCESS",
+    "keywordId": 112210768353976
+  },
+  {
+    "code": "SUCCESS",
+    "keywordId": 249490346605943
+  }
+]
+```
+
+---
+#### archiveBiddableKeywordBrand
+> Sets the keyword status to archived. This same operation can be performed via an update, but is included for completeness. Used for Sponsored Brands.
+
+```PHP
+$client->archiveBiddableKeywordBrand(112210768353976);
+```
+>
+```
+{
+  "code": "200",
+  "requestId": "0TR95PJD6Z16FFCZDXD0"
+}
+```
+
 
 ---
 #### listNegativeKeywords
@@ -936,6 +1143,27 @@ $client->requestSnapshot(
 }
 ```
 
+
+---
+#### requestSnapshotBrand
+> Request a snapshot report for all entities of a single type.  Used for Sponsored Brands.
+
+```PHP
+$client->requestSnapshotBrand(
+    "campaigns",
+    array("stateFilter" => "enabled,paused,archived",
+          "campaignType" => "sponsoredProducts"));
+```
+>
+```
+{
+  "snapshotId": "amzn1.clicksAPI.v1.p1.573A0477.ec41773a-1659-4013-8eb9-fa18c87ef5df",
+  "recordType": "campaign",
+  "status": "IN_PROGRESS"
+}
+```
+
+
 ---
 #### getSnapshot
 > Retrieve a previously requested report.
@@ -982,6 +1210,28 @@ $client->getSnapshot("amzn1.clicksAPI.v1.p1.573A0477.ec41773a-1659-4013-8eb9-fa1
 
 ```PHP
 $client->requestReport(
+    "campaigns",
+    array("reportDate" => "20160515",
+          "campaignType" => "sponsoredProducts",
+          "metrics" => "impressions,clicks,cost"));
+```
+>
+```
+{
+  "reportId": "amzn1.clicksAPI.v1.m1.573A0808.32908def-66a1-4ce2-8f12-780dc4ae1d43",
+  "recordType": "campaign",
+  "status": "IN_PROGRESS",
+  "statusDetails": "Report is submitted"
+}
+```
+
+
+---
+#### requestReportBrand
+> Request a customized performance report for all entities of a single type which have performance data to report.
+
+```PHP
+$client->requestReportBrand(
     "campaigns",
     array("reportDate" => "20160515",
           "campaignType" => "sponsoredProducts",
