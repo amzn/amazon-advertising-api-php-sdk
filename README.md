@@ -147,6 +147,7 @@ $client->profileId = "1234567890";
     * [requestReport](#requestreport)
     * [getReport](#getreport)
     * [requestReport Sponsored Brands](#requestreportBrand)
+    * [requestReport Searchterm in Auto campaigns](#requestReportSearchTerm)
 * Bid Recommendations
     * [getAdGroupBidRecommendations](#getadgroupbidrecommendations)
     * [getKeywordBidRecommendations](#getkeywordbidrecommendations)
@@ -1246,6 +1247,29 @@ $client->requestReportBrand(
   "statusDetails": "Report is submitted"
 }
 ```
+
+
+---
+#### requestReportSearchTerm
+> Search-terms report for auto-targeted campaigns generated before 11/14/2018 can be accessed from the endpoint: /v2/sp/keywords/report Search-terms report for auto-targeted campaigns generated on-and-after 11/14/2018 can be accessed from the endpoint: /v2/sp/targets/report Use query-segmentation to retrieve a search-terms report.
+
+```PHP
+$client->requestReportSearchTerm(
+    array("reportDate" => "20160515",
+          "campaignType" => "sponsoredProducts",
+          "segment" => "query",
+          "metrics" => "impressions,clicks,cost"));
+```
+>
+```
+{
+  "reportId": "amzn1.clicksAPI.v1.m1.573A0808.32908def-66a1-4ce2-8f12-780dc4ae1d43",
+  "recordType": "keywords",
+  "status": "IN_PROGRESS",
+  "statusDetails": "Report is submitted"
+}
+```
+
 
 ---
 #### getReport
