@@ -4,7 +4,7 @@
 
 ~~Official~~ Amazon Advertising API PHP client library.
 
-This repository has been deprecated and will not longer receive updates.
+This repository has been deprecated and will no longer receive updates.
 
 ## Requirements
 
