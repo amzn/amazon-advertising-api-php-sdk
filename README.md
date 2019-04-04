@@ -1,6 +1,8 @@
 ## Synopsis
 
-Official Amazon Advertising API PHP client library.
+~~Official~~ Amazon Advertising API PHP client library.
+
+This repository has been deprecated and will not longer receive updates.
 
 ## Requirements
 
