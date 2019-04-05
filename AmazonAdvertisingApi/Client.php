@@ -65,7 +65,7 @@ class Client
 
         $data = "";
         foreach ($params as $k => $v) {
-            $data .= "{$k}=".rawurlencode($v)."&";
+            $data .= "{$k}=" . rawurlencode($v) . "&";
         }
 
         $url = "https://{$this->tokenUrl}";
@@ -83,7 +83,7 @@ class Client
         if (array_key_exists("access_token", $response_array)) {
             $this->config["accessToken"] = $response_array["access_token"];
         } else {
-            $this->_logAndThrow("Unable to refresh token. 'access_token' not found in response. ". print_r($response, true));
+            $this->_logAndThrow("Unable to refresh token. 'access_token' not found in response. " . print_r($response, true));
         }
 
         return $response;
@@ -441,7 +441,7 @@ class Client
         return $this->_operation("hsa/{$recordType}/report", $data, "POST");
     }
 
-    public function requestReportSearchTerm( $data = null)
+    public function requestReportSearchTerm($data = null)
     {
         return $this->_operation("sp/targets/report", $data, "POST");
     }
@@ -456,6 +456,91 @@ class Client
             }
         }
         return $req;
+    }
+
+    public function getTargetingClause($targetId)
+    {
+        return $this->_operation("sp/targets/{$targetId}");
+    }
+
+    public function listTargetingClauses($data = null)
+    {
+        return $this->_operation("sp/targets", $data);
+    }
+
+    public function getTargetingClauseEx($targetId)
+    {
+        return $this->_operation("sp/targets/extended/{$targetId}");
+    }
+
+    public function listTargetingClausesEx($data = null)
+    {
+        return $this->_operation("sp/targets/extended", $data);
+    }
+
+    public function createTargetingClauses($data)
+    {
+        return $this->_operation("sp/targets", $data, "POST");
+    }
+
+    public function updateTargetingClauses($data)
+    {
+        return $this->_operation("sp/keywords", $data, "PUT");
+    }
+
+    public function archiveTargetingClause($targetId)
+    {
+        return $this->_operation("sp/targets/" . $targetId, 'DELETE');
+    }
+
+    public function generateTargetsProductRecommendations($data)
+    {
+        return $this->_operation("sp/targets/productRecommendations", $data, 'POST');
+    }
+
+    public function getTargetingCategories($data)
+    {
+        return $this->_operation("sp/targets/categories", $data);
+    }
+
+    public function getBrandRecommendations($data)
+    {
+        return $this->_operation("sp/targets/brands", $data);
+    }
+
+    public function getNegativeTargetingClause($targetId)
+    {
+        return $this->_operation("sp/negativeTargets/" . $targetId);
+    }
+
+    public function getNegativeTargetingClauseEx($targetId)
+    {
+        return $this->_operation("sp/negativeTargets/extended/" . $targetId);
+    }
+
+    public function listNegativeTargetingClauses($data = null)
+    {
+        return $this->_operation("sp/negativeTargets", $data);
+    }
+
+    public function listNegativeTargetingClausesEx($data = null)
+    {
+        return $this->_operation("sp/negativeTargets/extended", $data);
+    }
+
+    public function createNegativeTargetingClauses($data)
+    {
+        return $this->_operation("sp/negativeTargets", $data, 'POST');
+    }
+
+    public function updateNegativeTargetingClauses($data)
+    {
+        return $this->_operation("sp/negativeTargets", $data, 'PUT');
+    }
+
+    public function archiveNegativeTargetingClause($targetId)
+    {
+        return $this->_operation("sp/negativeTargets/" . $targetId, 'DELETE');
     }
 
     private function _download($location, $gunzip = false)
@@ -482,7 +567,11 @@ class Client
 
         if ($gunzip) {
             $response = $this->_executeRequest($request);
-            $response["response"] = gzdecode($response["response"]);
+            try {
+                $response["response"] = gzdecode($response["response"]);
+            } catch (\Exception $e) {
+
+            }
             return $response;
         }
 
@@ -515,7 +604,7 @@ class Client
                 if (!empty($params)) {
                     $url .= "?";
                     foreach ($params as $k => $v) {
-                        $url .= "{$k}=".rawurlencode($v)."&";
+                        $url .= "{$k}=" . rawurlencode($v) . "&";
                     }
                     $url = rtrim($url, "&");
                 }
@@ -561,14 +650,14 @@ class Client
                 }
             }
             return array("success" => false,
-                    "code" => $response_info["http_code"],
-                    "response" => $response,
-                    "requestId" => $requestId);
+                "code" => $response_info["http_code"],
+                "response" => $response,
+                "requestId" => $requestId);
         } else {
             return array("success" => true,
-                    "code" => $response_info["http_code"],
-                    "response" => $response,
-                    "requestId" => $this->requestId);
+                "code" => $response_info["http_code"],
+                "response" => $response,
+                "requestId" => $this->requestId);
         }
     }
 

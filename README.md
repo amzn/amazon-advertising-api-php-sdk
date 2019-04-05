@@ -158,6 +158,25 @@ $client->profileId = "1234567890";
   * [getAsinKeywordSuggestions](#getasinkeywordsuggestions)
   * [bulkGetAsinKeywordSuggestions](#bulkgetasinkeywordsuggestions)
 
+* Product attribute targeting
+  * [getTargetingClause](#getTargetingClause)
+  * [listTargetingClauses](#listTargetingClauses)
+  * [getTargetingClauseEx](#getTargetingClauseEx)
+  * [listTargetingClausesEx](#listTargetingClausesEx)
+  * [createTargetingClauses](#createTargetingClauses)
+  * [updateTargetingClauses](#updateTargetingClauses)
+  * [archiveTargetingClause](#archiveTargetingClause)
+  * [getTargetingCategories](#getTargetingCategories)
+  * [getBrandRecommendations](#getBrandRecommendations)
+  * [getNegativeTargetingClause](#getNegativeTargetingClause)
+  * [getNegativeTargetingClauseEx](#getNegativeTargetingClauseEx)
+  * [createNegativeTargetingClauses](#createNegativeTargetingClauses)
+  * [listNegativeTargetingClauses](#listNegativeTargetingClauses)
+  * [listNegativeTargetingClausesEx](#listNegativeTargetingClausesEx)
+  * [archiveNegativeTargetingClause](#archiveNegativeTargetingClause)
+  * [updateNegativeTargetingClauses](#updateNegativeTargetingClauses)
+
+
 #### getProfile
 > Retrieves a single profile by Id.
 
@@ -1496,4 +1515,176 @@ $client->bulkGetAsinKeywordSuggestions(
     "matchType": "broad"
   }
 ]
+```
+
+
+---
+#### getTargetingClause
+> Retrieve a targeting clause with a specific target ID.
+
+```PHP
+$client->getTargetingClause(123456789);
+```
+
+---
+#### listTargetingClauses
+> Retrieves a list of targeting clauses.
+
+```PHP
+$client->listTargetingClauses(array('stateFilter'=>'enabled'));
+```
+
+---
+#### getTargetingClauseEx
+> Retrieve a targeting clause with additional attributes using a specific target ID.
+
+```PHP
+$client->getTargetingClauseEx(123456789);
+```
+
+---
+#### listTargetingClausesEx
+> Retrieve a list of targeting clauses with extended properties.
+
+```PHP
+$client->listTargetingClausesEx(array('stateFilter'=>'enabled'));
+```
+
+---
+#### createTargetingClauses
+> Creates one or more targeting expressions.
+
+```PHP
+$client->createTargetingClauses(array(array(
+"campaignId"=> 127985268700344,
+    "adGroupId"=> 456789012345,
+    "expressionType"=> "manual",
+    "expression"=> array(
+        "type"=> "asinCategorySameAs",
+        "value"=> "12345567"
+    ),
+    "bid"=> 10,
+    "state"=> "enabled"
+)));
+```
+
+---
+#### updateTargetingClauses
+> Update one or more targeting clauses.
+
+```PHP
+$client->updateTargetingClauses(array(array(
+"campaignId"=> 127985268700344,
+    "adGroupId"=> 456789012345,
+    "targetId"=> 123452234567,
+    "expressionType"=> "manual",
+    "expression"=> array(
+        "type"=> "asinCategorySameAs",
+        "value"=> "12345567"
+    ),
+    "bid"=> 10,
+    "state"=> "enabled"
+)));
+```
+
+---
+#### archiveTargetingClause
+> Set the status of targeting clauses to archived. This same operation can also be performed via an update (PUT method), but is included for completeness. Archived entities cannot be made active again.
+
+```PHP
+$client->archiveTargetingClause(123456789);
+```
+
+---
+#### getTargetingCategories
+> Get list of targeting categories.
+
+```PHP
+$client->getTargetingCategories(array('asins'=>'ASDF,EFGH,DSFDSK'));
+```
+
+---
+#### getBrandRecommendations
+> Get recommended brands for Sponsored Products. Only one parameter (keyword or categoryId) per request is allowed.
+
+```PHP
+$client->getBrandRecommendations(array('categoryId'=>123456789));
+```
+
+---
+#### getNegativeTargetingClause
+> Get a specific negative targeting clause by targetId.
+
+```PHP
+$client->getNegativeTargetingClause(123456789);
+```
+
+---
+#### getNegativeTargetingClauseEx
+> Retrieve a negative targeting clause with additional attributes using a specific target ID.
+
+```PHP
+$client->getNegativeTargetingClauseEx(123456789);
+```
+
+---
+#### createNegativeTargetingClauses
+> Create negative targeting clauses at the campaign level.
+
+```PHP
+$client->createNegativeTargetingClauses(array(array(
+    "campaignId"=> 127985268700344,
+        "adGroupId"=> 456789012345,
+        "targetId"=> 123452234567,
+        "expressionType"=> "manual",
+        "expression"=> array(
+            "type"=> "asinCategorySameAs",
+            "value"=> "12345567"
+        ),
+        "bid"=> 10,
+        "state"=> "enabled"
+    )));
+```
+
+---
+#### listNegativeTargetingClauses
+> Retrieves a list of negative targeting clauses.
+
+```PHP
+$client->listNegativeTargetingClauses(array('stateFilter'=>'enabled'));
+```
+
+---
+#### listNegativeTargetingClausesEx
+> Retrieve a list of targeting clauses with extended properties.
+
+```PHP
+$client->listNegativeTargetingClausesEx(array('stateFilter'=>'enabled'));
+```
+
+---
+#### archiveNegativeTargetingClause
+> Archive negative targeting clauses.
+
+```PHP
+$client->archiveNegativeTargetingClause(123456789);
+```
+
+---
+#### updateNegativeTargetingClauses
+> Update negative targeting clauses.
+
+```PHP
+$client->updateNegativeTargetingClauses(array(array(
+   "campaignId"=> 127985268700344,
+       "adGroupId"=> 456789012345,
+       "targetId"=> 123452234567,
+       "expressionType"=> "manual",
+       "expression"=> array(
+           "type"=> "asinCategorySameAs",
+           "value"=> "12345567"
+       ),
+       "bid"=> 10,
+       "state"=> "enabled"
+   )));
 ```
