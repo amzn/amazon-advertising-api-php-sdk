@@ -38,6 +38,12 @@ class Client
         $this->applicationVersion = $this->versionStrings["applicationVersion"];
         $this->userAgent = "AdvertisingAPI PHP Client Library v{$this->applicationVersion}";
 
+		if (!empty($config["profileId"])) {
+			/* Populate profileId if it persists in the config and unset it to pass the _validateConfig */
+			$this->profileId = $config['profileId'];
+			unset($config["profileId"]);
+		}
+
         $this->_validateConfig($config);
         $this->_validateConfigParameters();
         $this->_setEndpoints();
@@ -493,7 +499,8 @@ class Client
             $json = json_decode($response, true);
             if (!is_null($json)) {
                 if (array_key_exists("requestId", $json)) {
-                    $requestId = json_decode($response, true)["requestId"];
+                    $request = json_decode($response, true);
+					$requestId = $request["requestId"];
                 }
             }
             return array("success" => false,
