@@ -436,6 +436,12 @@ class Client
         return $this->_operation("sp/{$recordType}/report", $data, "POST");
     }
 
+    public function requestAsinReport($data = null)
+    {
+        return $this->_operation("asins/report", $data, "POST");
+    }
+
+
     public function requestReportBrand($recordType, $data = null)
     {
         return $this->_operation("hsa/{$recordType}/report", $data, "POST");
@@ -490,7 +496,7 @@ class Client
 
     public function archiveTargetingClause($targetId)
     {
-        return $this->_operation("sp/targets/" . $targetId, 'DELETE');
+        return $this->_operation("sp/targets/" . $targetId, [], 'DELETE');
     }
 
     public function generateTargetsProductRecommendations($data)
@@ -541,6 +547,11 @@ class Client
     public function archiveNegativeTargetingClause($targetId)
     {
         return $this->_operation("sp/negativeTargets/" . $targetId, 'DELETE');
+    }
+
+    public function getTargetBidRecommendations($data)
+    {
+        return $this->_operation("sp/targets/bidRecommendations", $data, "POST");
     }
 
     private function _download($location, $gunzip = false)
