@@ -491,7 +491,7 @@ class Client
 
     public function updateTargetingClauses($data)
     {
-        return $this->_operation("sp/keywords", $data, "PUT");
+        return $this->_operation("sp/targets", $data, "PUT");
     }
 
     public function archiveTargetingClause($targetId)
