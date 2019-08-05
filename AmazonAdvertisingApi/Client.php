@@ -554,6 +554,36 @@ class Client
         return $this->_operation("sp/targets/bidRecommendations", $data, "POST");
     }
 
+    public function listPortfolios($data = null)
+    {
+        return $this->_operation("sp/portfolios", $data);
+    }
+
+    public function listPortfoliosEx($data = null)
+    {
+        return $this->_operation("sp/portfolios/extended", $data);
+    }
+
+    public function getPortfolio($portfolioId)
+    {
+        return $this->_operation("sp/portfolios/{$portfolioId}");
+    }
+
+    public function getPortfolioEx($portfolioId)
+    {
+        return $this->_operation("sp/portfolios/extended/{$portfolioId}");
+    }
+
+    public function createPortfolios($data)
+    {
+        return $this->_operation("sp/portfolios", $data, "POST");
+    }
+
+    public function updatePortfolios($data)
+    {
+        return $this->_operation("sp/portfolios", $data, "PUT");
+    }
+
     private function _download($location, $gunzip = false)
     {
         $headers = array();
