@@ -224,7 +224,6 @@ $client->updateProfiles(
   }
 ]
 ```
-```
 ---
 #### getPortfolio
 > Retrieves a Portfolio by Id
