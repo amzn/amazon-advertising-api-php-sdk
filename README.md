@@ -231,7 +231,39 @@ $client->listCampaigns(array("stateFilter" => "enabled"));
   }
 ]
 ```
-
+---
+#### getPortfolio
+> Retrieves a Portfolio by Id
+```PHP
+$request = $client->getPortfolio(1234567890);
+```
+---
+#### getPortfolioEx
+> Retrieves a PortfolioEx by Id
+```PHP
+$request = $client->getPortfolioEx(1234567890);
+```
+---
+#### createPortfolios
+```PHP
+$request = $client->createPortfolios($data);
+```
+---
+#### updatePortfolios
+```PHP
+$request = $client->updatePortfolios($data);
+```
+---
+#### listPortfolios
+```PHP
+$request = $client->listPortfolios(array("portfolioStateFilter" => "enabled"));
+```
+---
+#### listPortfoliosEx
+```PHP
+#listPortfoliosEx
+$request = $client->listPortfoliosEx();
+```
 ---
 #### getCampaign
 > Retrieves a campaign by Id. Note that this call returns the minimal set of campaign fields, but is more efficient than  `getCampaignEx`.

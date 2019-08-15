@@ -373,6 +373,37 @@ class Client
         return $this->_operation("{$recordType}/snapshot", $data, "POST");
     }
 
+    public function getPortfolio($portfolioId)
+    {
+        return $this->_operation("portfolios/{$portfolioId}");
+    }
+
+    public function getPortfolioEx ($portfolioId)
+    {
+        return $this->_operation("portfolios/extended/{$portfolioId}");
+    }
+
+    public function createPortfolios ($data)
+    {
+        return $this->_operation("portfolios", $data, "POST");
+    }
+
+    public function updatePortfolios($data)
+    {
+        return $this->_operation("portfolios", $data, "PUT");
+    }
+
+
+    public function listPortfolios($data = null)
+    {
+        return $this->_operation("portfolios", $data);
+    }
+
+    public function listPortfoliosEx($data = null)
+    {
+        return $this->_operation("portfolios/extended", $data);
+    }
+
     public function getSnapshot($snapshotId)
     {
         $req = $this->_operation("snapshots/{$snapshotId}");
@@ -433,6 +464,7 @@ class Client
     {
         $headers = array(
             "Authorization: bearer {$this->config["accessToken"]}",
+            "Amazon-Advertising-API-ClientId: {$this->config["clientId"]}",
             "Content-Type: application/json",
             "User-Agent: {$this->userAgent}"
         );
