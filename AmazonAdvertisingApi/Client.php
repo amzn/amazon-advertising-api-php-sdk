@@ -114,6 +114,36 @@ class Client
         return $this->_operation("profiles", $data, "PUT");
     }
 
+    public function getPortfolio($portfolioId)
+    {
+        return $this->_operation("portfolios/{$portfolioId}");
+    }
+
+    public function getPortfolioEx ($portfolioId)
+    {
+        return $this->_operation("portfolios/extended/{$portfolioId}");
+    }
+
+    public function createPortfolios ($data)
+    {
+        return $this->_operation("portfolios", $data, "POST");
+    }
+
+    public function updatePortfolios($data)
+    {
+        return $this->_operation("portfolios", $data, "PUT");
+    }
+
+    public function listPortfolios($data = null)
+    {
+        return $this->_operation("portfolios", $data);
+    }
+
+    public function listPortfoliosEx($data = null)
+    {
+        return $this->_operation("portfolios/extended", $data);
+    }
+
     public function getCampaign($campaignId)
     {
         return $this->_operation("campaigns/{$campaignId}");
@@ -368,40 +398,94 @@ class Client
         return $this->_operation("asins/suggested/keywords", $data, "POST");
     }
 
+    public function getTargetingClause($targetId)
+    {
+        return $this->_operation("sp/targets/{$targetId}");
+    }
+
+    public function listTargetingClauses($data = null)
+    {
+        return $this->_operation("sp/targets", $data);
+    }
+
+    public function getTargetingClauseEx($targetId)
+    {
+        return $this->_operation("sp/targets/extended/{$targetId}");
+    }
+
+    public function listTargetingClausesEx($data = null)
+    {
+        return $this->_operation("sp/targets/extended", $data);
+    }
+
+    public function createTargetingClauses($data)
+    {
+        return $this->_operation("sp/targets", $data, "POST");
+    }
+
+    public function updateTargetingClauses($data)
+    {
+        return $this->_operation("sp/keywords", $data, "PUT");
+    }
+
+    public function archiveTargetingClause($targetId)
+    {
+        return $this->_operation("sp/targets/" . $targetId, 'DELETE');
+    }
+
+    public function generateTargetsProductRecommendations($data)
+    {
+        return $this->_operation("sp/targets/productRecommendations", $data, 'POST');
+    }
+
+    public function getTargetingCategories($data)
+    {
+        return $this->_operation("sp/targets/categories", $data);
+    }
+
+    public function getBrandRecommendations($data)
+    {
+        return $this->_operation("sp/targets/brands", $data);
+    }
+
+    public function getNegativeTargetingClause($targetId)
+    {
+        return $this->_operation("sp/negativeTargets/" . $targetId);
+    }
+
+    public function getNegativeTargetingClauseEx($targetId)
+    {
+        return $this->_operation("sp/negativeTargets/extended/" . $targetId);
+    }
+
+    public function listNegativeTargetingClauses($data = null)
+    {
+        return $this->_operation("sp/negativeTargets", $data);
+    }
+
+    public function listNegativeTargetingClausesEx($data = null)
+    {
+        return $this->_operation("sp/negativeTargets/extended", $data);
+    }
+
+    public function createNegativeTargetingClauses($data)
+    {
+        return $this->_operation("sp/negativeTargets", $data, 'POST');
+    }
+
+    public function updateNegativeTargetingClauses($data)
+    {
+        return $this->_operation("sp/negativeTargets", $data, 'PUT');
+    }
+
+    public function archiveNegativeTargetingClause($targetId)
+    {
+        return $this->_operation("sp/negativeTargets/" . $targetId, 'DELETE');
+    }
+
     public function requestSnapshot($recordType, $data = null)
     {
         return $this->_operation("{$recordType}/snapshot", $data, "POST");
-    }
-
-    public function getPortfolio($portfolioId)
-    {
-        return $this->_operation("portfolios/{$portfolioId}");
-    }
-
-    public function getPortfolioEx ($portfolioId)
-    {
-        return $this->_operation("portfolios/extended/{$portfolioId}");
-    }
-
-    public function createPortfolios ($data)
-    {
-        return $this->_operation("portfolios", $data, "POST");
-    }
-
-    public function updatePortfolios($data)
-    {
-        return $this->_operation("portfolios", $data, "PUT");
-    }
-
-
-    public function listPortfolios($data = null)
-    {
-        return $this->_operation("portfolios", $data);
-    }
-
-    public function listPortfoliosEx($data = null)
-    {
-        return $this->_operation("portfolios/extended", $data);
     }
 
     public function getSnapshot($snapshotId)
@@ -453,7 +537,11 @@ class Client
 
         if ($gunzip) {
             $response = $this->_executeRequest($request);
-            $response["response"] = gzdecode($response["response"]);
+            try {
+                $response["response"] = gzdecode($response["response"]);
+            } catch (\Exception $e) {
+
+            }
             return $response;
         }
 
