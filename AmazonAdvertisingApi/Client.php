@@ -584,6 +584,11 @@ class Client
         return $this->_operation("portfolios", $data, "PUT");
     }
 
+    public function getAdGroupSuggestedKeywords($adGroupId)
+    {
+        return $this->_operation("sp/adGroups/" . $adGroupId . "/suggested/keywords");
+    }
+
     private function _download($location, $gunzip = false)
     {
         $headers = array();
