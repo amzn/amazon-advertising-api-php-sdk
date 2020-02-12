@@ -124,9 +124,28 @@ class Client
         return $this->_operation("sp/campaigns/extended/{$campaignId}");
     }
 
+    public function getCampaignExSponsoredDisplay($campaignId)
+    {
+        return $this->_operation("sd/campaigns/extended/{$campaignId}");
+    }
+
+    public function getCampaignExBrand($campaignId)
+    {
+        return $this->_operation("hsa/campaigns/extended/{$campaignId}");
+    }
+
+    public function getCampaignSponsoredDisplay($campaignId)
+    {
+        return $this->_operation("sd/campaigns/{$campaignId}");
+    }
+
     public function createCampaigns($data)
     {
         return $this->_operation("sp/campaigns", $data, "POST");
+    }
+    public function createCampaignsSponsoredDisplay($data)
+    {
+        return $this->_operation("sd/campaigns", $data, "POST");
     }
 
     public function updateCampaigns($data)
@@ -139,6 +158,11 @@ class Client
         return $this->_operation("sp/campaigns/{$campaignId}", null, "DELETE");
     }
 
+    public function archiveCampaignSponsoredDisplay($campaignId)
+    {
+        return $this->_operation("sd/campaigns/{$campaignId}", null, "DELETE");
+    }
+
     public function listCampaigns($data = null)
     {
         return $this->_operation("sp/campaigns", $data);
@@ -147,6 +171,11 @@ class Client
     public function listCampaignsEx($data = null)
     {
         return $this->_operation("sp/campaigns/extended", $data);
+    }
+
+    public function listCampaignsExSponsoredDisplay($data = null)
+    {
+        return $this->_operation("sd/campaigns/extended", $data);
     }
 
     public function getCampaignBrand($campaignId)
@@ -159,6 +188,11 @@ class Client
         return $this->_operation("hsa/campaigns", $data, "PUT");
     }
 
+    public function updateCampaignsSponsoredDisplay($data)
+    {
+        return $this->_operation("sd/campaigns", $data, "PUT");
+    }
+
     public function archiveCampaignBrand($campaignId)
     {
         return $this->_operation("hsa/campaigns/{$campaignId}", null, "DELETE");
@@ -169,6 +203,10 @@ class Client
         return $this->_operation("hsa/campaigns", $data);
     }
 
+    public function listCampaignsSponsoredDisplay($data = null)
+    {
+        return $this->_operation("sd/campaigns", $data);
+    }
 
     public function getAdGroup($adGroupId)
     {
@@ -587,6 +625,16 @@ class Client
     public function getAdGroupSuggestedKeywords($adGroupId)
     {
         return $this->_operation("sp/adGroups/" . $adGroupId . "/suggested/keywords");
+    }
+
+    public function getAsinSuggestedKeywords($asinValue)
+    {
+        return $this->_operation("sp/asins/" . $asinValue . "/suggested/keywords");
+    }
+
+    public function bulkGetAsinSuggestedKeywords($data)
+    {
+        return $this->_operation("sp/asins/suggested/keywords", $data, "POST");
     }
 
     private function _download($location, $gunzip = false)
