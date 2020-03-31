@@ -213,9 +213,19 @@ class Client
         return $this->_operation("adGroups/{$adGroupId}");
     }
 
+    public function getAdGroupSponsoredDisplay($adGroupId)
+    {
+        return $this->_operation("sd/adGroups/{$adGroupId}");
+    }
+
     public function getAdGroupEx($adGroupId)
     {
         return $this->_operation("adGroups/extended/{$adGroupId}");
+    }
+
+    public function getAdGroupExSponsoredDisplay($adGroupId)
+    {
+        return $this->_operation("sd/adGroups/extended/{$adGroupId}");
     }
 
     public function createAdGroups($data)
@@ -223,9 +233,18 @@ class Client
         return $this->_operation("adGroups", $data, "POST");
     }
 
+    public function createAdGroupsSponsoredDisplay($data)
+    {
+        return $this->_operation("sd/adGroups", $data, "POST");
+    }
     public function updateAdGroups($data)
     {
         return $this->_operation("adGroups", $data, "PUT");
+    }
+
+    public function updateAdGroupsSponsoredDisplay($data)
+    {
+        return $this->_operation("sd/adGroups", $data, "PUT");
     }
 
     public function archiveAdGroup($adGroupId)
@@ -233,14 +252,28 @@ class Client
         return $this->_operation("adGroups/{$adGroupId}", null, "DELETE");
     }
 
+    public function archiveAdGroupSponsoredDisplay($adGroupId)
+    {
+        return $this->_operation("sd/adGroups/{$adGroupId}", null, "DELETE");
+    }
+
     public function listAdGroups($data = null)
     {
         return $this->_operation("adGroups", $data);
+    }
+    public function listAdGroupsSponsoredDisplay($data = null)
+    {
+        return $this->_operation("sd/adGroups", $data);
     }
 
     public function listAdGroupsEx($data = null)
     {
         return $this->_operation("adGroups/extended", $data);
+    }
+
+    public function listAdGroupsExSponsoredDisplay($data = null)
+    {
+        return $this->_operation("sd/adGroups/extended", $data);
     }
 
     public function getBiddableKeyword($keywordId)
