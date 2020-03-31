@@ -553,6 +553,13 @@ class Client
         return $this->_operation("hsa/{$recordType}/report", $data, "POST");
     }
 
+    public function requestReportSponsoredDisplay($recordType, $data = null)
+    {
+        return $this->_operation("sd/{$recordType}/report", $data, "POST");
+    }
+
+
+
     public function requestReportSearchTerm($data = null)
     {
         return $this->_operation("sp/targets/report", $data, "POST");
