@@ -406,9 +406,19 @@ class Client
         return $this->_operation("sp/productAds/{$productAdId}");
     }
 
+    public function getProductAdSponsoredDisplay($productAdId)
+    {
+        return $this->_operation("sd/productAds/{$productAdId}");
+    }
+
     public function getProductAdEx($productAdId)
     {
         return $this->_operation("sp/productAds/extended/{$productAdId}");
+    }
+
+    public function getProductAdExSponsoredDisplay($productAdId)
+    {
+        return $this->_operation("sd/productAds/extended/{$productAdId}");
     }
 
     public function createProductAds($data)
@@ -416,9 +426,19 @@ class Client
         return $this->_operation("sp/productAds", $data, "POST");
     }
 
+    public function createProductAdsSponsoredDisplay($data)
+    {
+        return $this->_operation("sd/productAds", $data, "POST");
+    }
+
     public function updateProductAds($data)
     {
         return $this->_operation("sp/productAds", $data, "PUT");
+    }
+
+    public function updateProductAdsSponsoredDisplay($data)
+    {
+        return $this->_operation("sd/productAds", $data, "PUT");
     }
 
     public function archiveProductAd($productAdId)
@@ -426,14 +446,29 @@ class Client
         return $this->_operation("sp/productAds/{$productAdId}", null, "DELETE");
     }
 
+    public function archiveProductAdSponsoredDisplay($productAdId)
+    {
+        return $this->_operation("sd/productAds/{$productAdId}", null, "DELETE");
+    }
+
     public function listProductAds($data = null)
     {
         return $this->_operation("sp/productAds", $data);
     }
 
+    public function listProductAdsSponsoredDisplay($data = null)
+    {
+        return $this->_operation("sd/productAds", $data);
+    }
+
     public function listProductAdsEx($data = null)
     {
         return $this->_operation("sp/productAds/extended", $data);
+    }
+
+    public function listProductAdsExSponsoredDisplay($data = null)
+    {
+        return $this->_operation("sd/productAds/extended", $data);
     }
 
     public function getAdGroupBidRecommendations($adGroupId)
