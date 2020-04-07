@@ -1,4 +1,5 @@
 <?php
+
 namespace AmazonAdvertisingApi;
 
 require_once "Versions.php";
@@ -143,6 +144,12 @@ class Client
     {
         return $this->_operation("sp/campaigns", $data, "POST");
     }
+
+    public function createCampaignsBrand($data)
+    {
+        return $this->_operation("sp/campaigns", $data, "POST");
+    }
+
     public function createCampaignsSponsoredDisplay($data)
     {
         return $this->_operation("sd/campaigns", $data, "POST");
@@ -237,6 +244,7 @@ class Client
     {
         return $this->_operation("sd/adGroups", $data, "POST");
     }
+
     public function updateAdGroups($data)
     {
         return $this->_operation("adGroups", $data, "PUT");
@@ -261,6 +269,12 @@ class Client
     {
         return $this->_operation("adGroups", $data);
     }
+
+    public function listAdGroupsBrand($data = null)
+    {
+        return $this->_operation("hsa/adGroups", $data);
+    }
+
     public function listAdGroupsSponsoredDisplay($data = null)
     {
         return $this->_operation("sd/adGroups", $data);
@@ -537,6 +551,19 @@ class Client
         return $req;
     }
 
+    public function getSnapshotBrands($snapshotId)
+    {
+        $req = $this->_operation("hsa/snapshots/{$snapshotId}");
+        if ($req["success"]) {
+            $json = json_decode($req["response"], true);
+            if ($json["status"] == "SUCCESS") {
+                return $this->_download($json["location"]);
+            }
+        }
+        return $req;
+    }
+
+
     public function requestReport($recordType, $data = null)
     {
         return $this->_operation("sp/{$recordType}/report", $data, "POST");
@@ -557,7 +584,6 @@ class Client
     {
         return $this->_operation("sd/{$recordType}/report", $data, "POST");
     }
-
 
 
     public function requestReportSearchTerm($data = null)
@@ -582,9 +608,19 @@ class Client
         return $this->_operation("sp/targets/{$targetId}");
     }
 
+    public function getTargetingClauseSponsoredDisplay($targetId)
+    {
+        return $this->_operation("sd/targets/{$targetId}");
+    }
+
     public function listTargetingClauses($data = null)
     {
         return $this->_operation("sp/targets", $data);
+    }
+
+    public function listTargetingClausesSponsoredDisplay($data = null)
+    {
+        return $this->_operation("sd/targets", $data);
     }
 
     public function getTargetingClauseEx($targetId)
@@ -592,9 +628,20 @@ class Client
         return $this->_operation("sp/targets/extended/{$targetId}");
     }
 
+    public function getTargetingClauseExSponsoredDisplay($targetId)
+    {
+        return $this->_operation("sd/targets/extended/{$targetId}");
+    }
+
+
     public function listTargetingClausesEx($data = null)
     {
         return $this->_operation("sp/targets/extended", $data);
+    }
+
+    public function listTargetingClausesExSponsoredDisplay($data = null)
+    {
+        return $this->_operation("sd/targets/extended", $data);
     }
 
     public function createTargetingClauses($data)
@@ -602,15 +649,31 @@ class Client
         return $this->_operation("sp/targets", $data, "POST");
     }
 
+    public function createTargetingClausesSponsoredDisplay($data)
+    {
+        return $this->_operation("sd/targets", $data, "POST");
+    }
+
     public function updateTargetingClauses($data)
     {
         return $this->_operation("sp/targets", $data, "PUT");
+    }
+
+    public function updateTargetingClausesSponsoredDisplay($data)
+    {
+        return $this->_operation("sd/targets", $data, "PUT");
     }
 
     public function archiveTargetingClause($targetId)
     {
         return $this->_operation("sp/targets/" . $targetId, [], 'DELETE');
     }
+
+    public function archiveTargetingClauseSponsoredDisplay($targetId)
+    {
+        return $this->_operation("sd/targets/" . $targetId, [], 'DELETE');
+    }
+
 
     public function generateTargetsProductRecommendations($data)
     {
@@ -712,6 +775,32 @@ class Client
         return $this->_operation("sp/asins/suggested/keywords", $data, "POST");
     }
 
+    public function listAssets($data = null)
+    {
+        return $this->_operation("stores/assets", $data);
+    }
+
+    public function listBrands($data = null)
+    {
+        return $this->_operation("brands", $data);
+    }
+
+    /**
+     * @param $data
+     *  [        'assetInfo' => '{brandEntityId: "ENTITY123456", mediaType: "brandLogo"}'    ];
+     * @param $filePath - real path to uploaded file
+     * @param $imageType - one of PNG|JPEG|GIF
+     * @param $fileName - example 'logo.png'
+     * @return array
+     */
+    public function createAsset($data, $filePath, $imageType, $fileName)
+    {
+        $headers = array(
+            'Content-Disposition: ' . $fileName
+        );
+        return $this->_UploadAsset($data, array($filePath), $headers, $imageType, $fileName);
+    }
+
     private function _download($location, $gunzip = false)
     {
         $headers = array();
@@ -747,7 +836,7 @@ class Client
         return $this->_executeRequest($request);
     }
 
-    private function _operation($interface, $params = array(), $method = "GET")
+    private function _operation($interface, $params = array(), $method = "GET", $additionalHeaders = array())
     {
         $headers = array(
             "Authorization: bearer {$this->config["accessToken"]}",
@@ -763,8 +852,20 @@ class Client
             array_push($headers, "Amazon-Advertising-API-ClientId: {$this->config['clientId']}");
         }
 
+
+        if (!empty($additionalHeaders)) {
+            foreach ($additionalHeaders as $header) {
+                array_push($headers, $header);
+            }
+        }
+
         $request = new CurlRequest();
         $url = "{$this->endpoint}/{$interface}";
+
+        $excludedVersionForInterfaceList = array('brands', 'stores/assets');
+        if (array_search($interface, $excludedVersionForInterfaceList) !== false) {
+            $url = str_replace('/' . $this->apiVersion, '', $url);
+        }
         $this->requestId = null;
         $data = "";
 
@@ -797,6 +898,102 @@ class Client
         $request->setOption(CURLOPT_CUSTOMREQUEST, strtoupper($method));
         return $this->_executeRequest($request);
     }
+
+
+    private function _UploadAsset($params = array(), $filenames = array(), $additionalHeaders = array(), $imageType, $fileName)
+    {
+
+        $files = array();
+        foreach ($filenames as $f) {
+            $files[$f] = file_get_contents($f);
+        }
+
+
+        $url = "{$this->endpoint}/stores/assets";
+        $boundary = uniqid();
+        $delimiter = '-------------' . $boundary;
+        $post_data = $this->build_data_files($boundary, $params, $files, $imageType, $fileName);
+
+        $headers = array(
+            "Authorization: bearer {$this->config["accessToken"]}",
+            "Content-Type: multipart/form-data; boundary=" . $delimiter,
+            "Content-Length: " . strlen($post_data),
+            "User-Agent: {$this->userAgent}"
+        );
+
+        if (!is_null($this->profileId)) {
+            array_push($headers, "Amazon-Advertising-API-Scope: {$this->profileId}");
+        }
+
+        if (!is_null($this->config['clientId'])) {
+            array_push($headers, "Amazon-Advertising-API-ClientId: {$this->config['clientId']}");
+        }
+
+        if (!empty($additionalHeaders)) {
+            foreach ($additionalHeaders as $header) {
+                array_push($headers, $header);
+            }
+        }
+
+        $request = new CurlRequest();
+        $url = str_replace('/' . $this->apiVersion, '', $url);
+
+        $this->requestId = null;
+        $request->setOption(CURLOPT_POST, true);
+        $request->setOption(CURLOPT_POSTFIELDS, $post_data);
+        $request->setOption(CURLOPT_URL, $url);
+        $request->setOption(CURLOPT_HTTPHEADER, $headers);
+        $request->setOption(CURLOPT_USERAGENT, $this->userAgent);
+        $request->setOption(CURLOPT_CUSTOMREQUEST, 'POST');
+        return $this->_executeRequest($request);
+    }
+
+
+    protected function build_data_files($boundary, $fields, $files, $imageType, $fileName)
+    {
+
+        $imageMimeType = '';
+        switch ($imageType) {
+            case 'PNG':
+                $imageMimeType = 'image/png';
+                break;
+
+            case 'JPEG':
+                $imageMimeType = 'image/jpeg';
+                break;
+
+            case 'GIF':
+                $imageMimeType = 'image/gif';
+                break;
+
+            default:
+                $this->_logAndThrow("Unknown image type {$imageType}.");
+        }
+
+        $data = '';
+        $eol = "\r\n";
+        $delimiter = '-------------' . $boundary;
+
+        foreach ($fields as $name => $content) {
+            $data .= "--" . $delimiter . $eol
+                . 'Content-Disposition: form-data; name="' . $name . "\"" . $eol . $eol
+                . $content . $eol;
+        }
+
+        foreach ($files as $name => $content) {
+            $data .= "--" . $delimiter . $eol
+                . 'Content-Disposition: form-data; name="asset"; filename="' . $fileName . '"' . $eol
+                . 'Content-Type: ' . $imageMimeType . $eol
+                . 'Content-Transfer-Encoding: binary' . $eol;
+
+            $data .= $eol;
+            $data .= $content . $eol;
+        }
+        $data .= "--" . $delimiter . "--" . $eol;
+
+        return $data;
+    }
+
 
     protected function _executeRequest($request)
     {
