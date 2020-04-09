@@ -147,7 +147,7 @@ class Client
 
     public function createCampaignsBrand($data)
     {
-        return $this->_operation("sp/campaigns", $data, "POST");
+        return $this->_operation("sb/campaigns", $data, "POST");
     }
 
     public function createCampaignsSponsoredDisplay($data)
@@ -862,7 +862,7 @@ class Client
         $request = new CurlRequest();
         $url = "{$this->endpoint}/{$interface}";
 
-        $excludedVersionForInterfaceList = array('brands', 'stores/assets');
+        $excludedVersionForInterfaceList = array('brands', 'stores/assets','sb/campaigns');
         if (array_search($interface, $excludedVersionForInterfaceList) !== false) {
             $url = str_replace('/' . $this->apiVersion, '', $url);
         }
