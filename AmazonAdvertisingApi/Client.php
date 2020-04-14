@@ -14,7 +14,10 @@ class Client
         "region" => null,
         "accessToken" => null,
         "refreshToken" => null,
-        "sandbox" => false);
+        "sandbox" => false,
+        "isLogedEnabled"=>false,
+        "logPath"=>''
+    );
 
     private $apiVersion = null;
     private $applicationVersion = null;
@@ -24,7 +27,8 @@ class Client
     private $requestId = null;
     private $endpoints = null;
     private $versionStrings = null;
-
+    private $logPath = '';
+    private $isLogedEnabled = false;
     public $profileId = null;
 
     public function __construct($config)
@@ -42,6 +46,8 @@ class Client
         $this->_validateConfig($config);
         $this->_validateConfigParameters();
         $this->_setEndpoints();
+        $this->isLogedEnabled = isset($config['isLogedEnabled']) ? $config['isLogedEnabled'] : false;
+        $this->logPath = isset($config['logPath']) ? $config['logPath'] : false;
 
         if (is_null($this->config["accessToken"]) && !is_null($this->config["refreshToken"])) {
             /* convenience */
@@ -303,6 +309,11 @@ class Client
     public function createBiddableKeywords($data)
     {
         return $this->_operation("sp/keywords", $data, "POST");
+    }
+
+    public function createBiddableKeywordsBrands($data)
+    {
+        return $this->_operation("sb/keywords", $data, "POST");
     }
 
     public function updateBiddableKeywords($data)
@@ -618,6 +629,11 @@ class Client
         return $this->_operation("sp/targets", $data);
     }
 
+    public function listTargetingClausesBrands($data = null)
+    {
+        return $this->_operation("/sb/targets/list", $data, "POST");
+    }
+
     public function listTargetingClausesSponsoredDisplay($data = null)
     {
         return $this->_operation("sd/targets", $data);
@@ -649,6 +665,11 @@ class Client
         return $this->_operation("sp/targets", $data, "POST");
     }
 
+    public function createTargetingClausesBrands($data)
+    {
+        return $this->_operation("sb/targets", $data, "POST");
+    }
+
     public function createTargetingClausesSponsoredDisplay($data)
     {
         return $this->_operation("sd/targets", $data, "POST");
@@ -659,6 +680,11 @@ class Client
         return $this->_operation("sp/targets", $data, "PUT");
     }
 
+    public function updateTargetingClausesBrands($data)
+    {
+        return $this->_operation("sb/targets", $data, "PUT");
+    }
+
     public function updateTargetingClausesSponsoredDisplay($data)
     {
         return $this->_operation("sd/targets", $data, "PUT");
@@ -666,12 +692,17 @@ class Client
 
     public function archiveTargetingClause($targetId)
     {
-        return $this->_operation("sp/targets/" . $targetId, [], 'DELETE');
+        return $this->_operation("sp/targets/" . $targetId, array(), 'DELETE');
+    }
+
+    public function archiveTargetingClauseBrands($targetId)
+    {
+        return $this->_operation("sb/targets/" . $targetId, array(), 'DELETE');
     }
 
     public function archiveTargetingClauseSponsoredDisplay($targetId)
     {
-        return $this->_operation("sd/targets/" . $targetId, [], 'DELETE');
+        return $this->_operation("sd/targets/" . $targetId, array(), 'DELETE');
     }
 
 
@@ -862,7 +893,7 @@ class Client
         $request = new CurlRequest();
         $url = "{$this->endpoint}/{$interface}";
 
-        $excludedVersionForInterfaceList = array('brands', 'stores/assets','sb/campaigns');
+        $excludedVersionForInterfaceList = array('brands', 'stores/assets', 'sb/campaigns', 'sb/targets', 'sb/keywords');
         if (array_search($interface, $excludedVersionForInterfaceList) !== false) {
             $url = str_replace('/' . $this->apiVersion, '', $url);
         }
@@ -1002,6 +1033,7 @@ class Client
         $response_info = $request->getInfo();
         $request->close();
 
+
         if ($response_info["http_code"] == 307) {
             /* application/octet-stream */
             return $this->_download($response_info["redirect_url"], true);
@@ -1015,15 +1047,19 @@ class Client
                     $requestId = json_decode($response, true)["requestId"];
                 }
             }
-            return array("success" => false,
+            $requestResponse = array("success" => false,
                 "code" => $response_info["http_code"],
                 "response" => $response,
                 "requestId" => $requestId);
+            $this->_logAllRequests($request, $requestResponse);
+            return $requestResponse;
         } else {
-            return array("success" => true,
+            $requestResponse = array("success" => true,
                 "code" => $response_info["http_code"],
                 "response" => $response,
                 "requestId" => $this->requestId);
+            $this->_logAllRequests($request, $requestResponse);
+            return $requestResponse;
         }
     }
 
@@ -1106,4 +1142,14 @@ class Client
         error_log($message, 0);
         throw new \Exception($message);
     }
+
+    private function _logAllRequests($request, $requestResponse)
+    {
+        if ($this->isLogedEnabled === true) {
+            file_put_contents($this->logPath . 'Advertising_log_' . date('Y_m_d') . '.log',
+                print_r($request->getOptionsArray(), true) . 'RESPONSE = ' . print_r($requestResponse, true), FILE_APPEND);
+        }
+
+    }
+
 }
