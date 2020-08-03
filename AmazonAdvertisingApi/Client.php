@@ -15,8 +15,8 @@ class Client
         "accessToken" => null,
         "refreshToken" => null,
         "sandbox" => false,
-        "isLogedEnabled"=>false,
-        "logPath"=>''
+        "isLogedEnabled" => false,
+        "logPath" => ''
     );
 
     private $apiVersion = null;
@@ -138,7 +138,7 @@ class Client
 
     public function getCampaignExBrand($campaignId)
     {
-        return $this->_operation("hsa/campaigns/extended/{$campaignId}");
+        return $this->_operation("sb/campaigns/extended/{$campaignId}");
     }
 
     public function getCampaignSponsoredDisplay($campaignId)
@@ -193,7 +193,7 @@ class Client
 
     public function getCampaignBrand($campaignId)
     {
-        return $this->_operation("hsa/campaigns/{$campaignId}");
+        return $this->_operation("sb/campaigns/{$campaignId}");
     }
 
     public function updateCampaignsBrand($data)
@@ -897,6 +897,11 @@ class Client
         if (array_search($interface, $excludedVersionForInterfaceList) !== false) {
             $url = str_replace('/' . $this->apiVersion, '', $url);
         }
+
+        if(strpos($url,'sb/campaigns')!==false){
+            $url = str_replace('/' . $this->apiVersion, '', $url);
+
+        }
         $this->requestId = null;
         $data = "";
 
@@ -1146,8 +1151,18 @@ class Client
     private function _logAllRequests($request, $requestResponse)
     {
         if ($this->isLogedEnabled === true) {
-            file_put_contents($this->logPath . 'Advertising_log_' . date('Y_m_d') . '.log',
-                print_r($request->getOptionsArray(), true) . 'RESPONSE = ' . print_r($requestResponse, true), FILE_APPEND);
+            $excludeList = array('https://api.amazon.com/auth/o2/token', 'https://advertising-api-eu.amazon.com/v2/profiles');
+            $mustExlcude = false;
+            foreach ($request->getOptionsArray() as $option) {
+                if (isset($option[CURLOPT_URL]) AND ((array_search($option[CURLOPT_URL], $excludeList) !== false) OR (strpos($option[CURLOPT_URL], 'https://amazon-advertising-api-snapshots-prod-usamazon') !== false))) {
+                    $mustExlcude = true;
+                }
+            }
+            if ($mustExlcude === false) {
+                file_put_contents($this->logPath . 'Advertising_log_' . date('Y_m_d') . '.log',
+                    date('H:i:s').' '.print_r($request->getOptionsArray(), true) . 'RESPONSE = ' . print_r($requestResponse, true), FILE_APPEND);
+
+            }
         }
 
     }
