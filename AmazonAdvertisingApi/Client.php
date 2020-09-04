@@ -931,8 +931,12 @@ class Client
 
         if(strpos($url,'sb/campaigns')!==false){
             $url = str_replace('/' . $this->apiVersion, '', $url);
-
         }
+
+        if(strpos($url,'/attribution')!==false){
+            $url = str_replace('/' . $this->apiVersion, '', $url);
+        }
+
         $this->requestId = null;
         $data = "";
 
