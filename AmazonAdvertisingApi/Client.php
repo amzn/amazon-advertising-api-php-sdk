@@ -851,6 +851,10 @@ class Client
 
     /** Amazon atribution end */
 
+    public function getHistoryData($data = null)
+    {
+        return $this->_operation("history", $data, "POST");
+    }
 
     /**
      * @param $data
@@ -931,7 +935,7 @@ class Client
             $url = str_replace('/' . $this->apiVersion, '', $url);
         }
 
-        if (strpos($url, 'sb/campaigns') !== false) {
+        if (strpos($url, 'sb/campaigns') !== false OR strpos($url, 'history') !== false) {
             $url = str_replace('/' . $this->apiVersion, '', $url);
         }
 

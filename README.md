@@ -182,6 +182,9 @@ $client->profileId = "1234567890";
   * [archiveNegativeTargetingClause](#archiveNegativeTargetingClause)
   * [updateNegativeTargetingClauses](#updateNegativeTargetingClauses)
 
+* Geting history data
+  * [getHistoryData](#getHistoryData)
+
 
 #### getProfile
 > Retrieves a single profile by Id.
@@ -1693,4 +1696,24 @@ $client->updateNegativeTargetingClauses(array(array(
        "bid"=> 10,
        "state"=> "enabled"
    )));
+```
+
+
+#### getHistoryData
+> Get history data.
+
+```PHP
+
+$fromdate = (time() - 60*60*24*14) *1000;
+$todate = time()*1000;
+$response = $client->getHistoryData(['fromDate'=> $fromdate, 
+									'toDate'=>$todate,
+									'eventTypes'=>[
+										'CAMPAIGN'=>[
+											'eventTypeIds'=> ['123456789'
+													]
+												  ]
+									]);
+
+
 ```
