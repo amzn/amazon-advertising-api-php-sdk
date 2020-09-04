@@ -30,6 +30,13 @@ class Client
     private $logPath = '';
     private $isLogedEnabled = false;
     public $profileId = null;
+    /*
+    Also note that Amazon Attribution accounts are a separate type of "profile". Only Amazon Attribution profiles can be
+    called within the Amazon Attribution API. When getting the Profiles resource, identify the correct Amazon Attribution
+     profile by inspecting the "subType" property to ensure it's set to "AMAZON_ATTRIBUTION".
+    https://advertising.amazon.com/API/docs/en-us/amazon-attribution-prod-3p/#/Advertisers
+    */
+    public $profileIdAttribution = null;
 
     public function __construct($config)
     {
@@ -816,35 +823,33 @@ class Client
         return $this->_operation("brands", $data);
     }
 
-/** Amazon attribution start  */
+    /** Amazon attribution start  */
     public function getAttributionlistPublishers($data = null)
     {
-        return $this->_operation("/attribution/publishers", $data);
+        return $this->_operation("attribution/publishers", $data);
     }
 
     public function getAttributionReports($data = null)
     {
-        return $this->_operation("/attribution/report", $data,"POST");
+        return $this->_operation("attribution/report", $data, "POST");
     }
 
     public function getAttributionNonMacroTemplateTag($data = null)
     {
-        return $this->_operation("/attribution/tags/nonMacroTemplateTag", $data);
+        return $this->_operation("attribution/tags/nonMacroTemplateTag", $data);
     }
 
     public function getAttributionMacroTemplateTag($data = null)
     {
-        return $this->_operation("/attribution/tags/macroTag", $data);
+        return $this->_operation("attribution/tags/macroTag", $data);
     }
 
     public function getAttributionAdvertisers($data = null)
     {
-        return $this->_operation("/attribution/advertisers", $data);
+        return $this->_operation("attribution/advertisers", $data);
     }
 
-
-/** Amazon atribution end */
-
+    /** Amazon atribution end */
 
 
     /**
@@ -906,9 +911,6 @@ class Client
             "User-Agent: {$this->userAgent}"
         );
 
-        if (!is_null($this->profileId)) {
-            array_push($headers, "Amazon-Advertising-API-Scope: {$this->profileId}");
-        }
 
         if (!is_null($this->config['clientId'])) {
             array_push($headers, "Amazon-Advertising-API-ClientId: {$this->config['clientId']}");
@@ -929,12 +931,19 @@ class Client
             $url = str_replace('/' . $this->apiVersion, '', $url);
         }
 
-        if(strpos($url,'sb/campaigns')!==false){
+        if (strpos($url, 'sb/campaigns') !== false) {
             $url = str_replace('/' . $this->apiVersion, '', $url);
         }
 
-        if(strpos($url,'/attribution')!==false){
+        if (strpos($url, '/attribution') !== false) {
             $url = str_replace('/' . $this->apiVersion, '', $url);
+            if (!is_null($this->profileIdAttribution)) {
+                array_push($headers, "Amazon-Advertising-API-Scope: {$this->profileIdAttribution}");
+            }
+        } else {
+            if (!is_null($this->profileId)) {
+                array_push($headers, "Amazon-Advertising-API-Scope: {$this->profileId}");
+            }
         }
 
         $this->requestId = null;
@@ -962,6 +971,9 @@ class Client
             default:
                 $this->_logAndThrow("Unknown verb {$method}.");
         }
+
+        echo $url;
+        print_r($headers);
 
         $request->setOption(CURLOPT_URL, $url);
         $request->setOption(CURLOPT_HTTPHEADER, $headers);
@@ -1170,6 +1182,7 @@ class Client
             } else {
                 $this->endpoint = "https://{$this->endpoints[$region_code]["prod"]}/{$this->apiVersion}";
             }
+
             $this->tokenUrl = $this->endpoints[$region_code]["tokenUrl"];
         } else {
             $this->_logAndThrow("Invalid region.");
@@ -1195,7 +1208,7 @@ class Client
             }
             if ($mustExlcude === false) {
                 file_put_contents($this->logPath . 'Advertising_log_' . date('Y_m_d') . '.log',
-                    date('H:i:s').' '.print_r($request->getOptionsArray(), true) . 'RESPONSE = ' . print_r($requestResponse, true), FILE_APPEND);
+                    date('H:i:s') . ' ' . print_r($request->getOptionsArray(), true) . 'RESPONSE = ' . print_r($requestResponse, true), FILE_APPEND);
 
             }
         }

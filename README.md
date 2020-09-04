@@ -1,6 +1,12 @@
 ## Synopsis
 
 Fork of Official Amazon Advertising API PHP client library.
+Important notes for Amazon Attribution: yoou must use  another profile ID for making rqueests. So please dont forget to setup this profile id with
+
+```PHP
+$client->profileIdAttribution = "1234567890";
+```
+
 
 ## Requirements
 
