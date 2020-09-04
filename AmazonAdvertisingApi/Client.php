@@ -816,6 +816,37 @@ class Client
         return $this->_operation("brands", $data);
     }
 
+/** Amazon attribution start  */
+    public function getAttributionlistPublishers($data = null)
+    {
+        return $this->_operation("/attribution/publishers", $data);
+    }
+
+    public function getAttributionReports($data = null)
+    {
+        return $this->_operation("/attribution/report", $data,"POST");
+    }
+
+    public function getAttributionNonMacroTemplateTag($data = null)
+    {
+        return $this->_operation("/attribution/tags/nonMacroTemplateTag", $data);
+    }
+
+    public function getAttributionMacroTemplateTag($data = null)
+    {
+        return $this->_operation("/attribution/tags/macroTag", $data);
+    }
+
+    public function getAttributionAdvertisers($data = null)
+    {
+        return $this->_operation("/attribution/advertisers", $data);
+    }
+
+
+/** Amazon atribution end */
+
+
+
     /**
      * @param $data
      *  [        'assetInfo' => '{brandEntityId: "ENTITY123456", mediaType: "brandLogo"}'    ];
