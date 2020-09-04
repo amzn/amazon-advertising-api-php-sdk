@@ -972,9 +972,6 @@ class Client
                 $this->_logAndThrow("Unknown verb {$method}.");
         }
 
-        echo $url;
-        print_r($headers);
-
         $request->setOption(CURLOPT_URL, $url);
         $request->setOption(CURLOPT_HTTPHEADER, $headers);
         $request->setOption(CURLOPT_USERAGENT, $this->userAgent);
