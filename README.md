@@ -1,11 +1,11 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 ## Synopsis
 
-Fork of Official Amazon Advertising API PHP client library.
-Important notes for Amazon Attribution: yoou must use  another profile ID for making rqueests. So please dont forget to setup this profile id with
 
-```PHP
-$client->profileIdAttribution = "1234567890";
-```
+~~Official~~ Amazon Advertising API PHP client library.
+
+This repository has been deprecated and will no longer receive updates.
 
 
 ## Requirements
