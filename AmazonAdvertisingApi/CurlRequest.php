@@ -1,10 +1,12 @@
 <?php
+
 namespace AmazonAdvertisingApi;
 
 class CurlRequest
 {
     private $handle = null;
     public $requestId = null;
+    private $optionsArray = array();
 
     public function __construct()
     {
@@ -23,11 +25,13 @@ class CurlRequest
             curl_setopt($this->handle, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         }
         curl_setopt($this->handle, CURLOPT_HEADERFUNCTION, array($this, "_handleHeaderLine"));
+        $this->optionsArray=array();
     }
 
     public function setOption($name, $value)
     {
         curl_setopt($this->handle, $name, $value);
+        $this->optionsArray[] = array($name => $value);
     }
 
     public function execute()
@@ -62,5 +66,9 @@ class CurlRequest
             }
         }
         return strlen($line);
+    }
+
+    public function getOptionsArray(){
+        return $this->optionsArray;
     }
 }

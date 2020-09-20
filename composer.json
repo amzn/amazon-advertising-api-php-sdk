@@ -1,5 +1,5 @@
 {
-    "name": "amzn/amazon-advertising-api-php-sdk",
+    "name": "rams007/amazon-advertising-api-php-sdk",
     "type": "library",
     "description": "Amazon Advertising API Client Library",
     "keywords": [
@@ -11,7 +11,7 @@
         "sdk"
     ],
     "homepage": "https://advertising.amazon.com/",
-    "license": "Apache OSL-2",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "SSPA AIR Dev",
@@ -30,7 +30,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/amzn/amazon-advertising-api-php-sdk"
+            "url": "https://github.com/rams007/amazon-advertising-api-php-sdk"
         }
     ]
 }
